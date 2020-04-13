@@ -35,15 +35,16 @@ class Scenario:
             downloaded_bits_per_individual = new_oracle.individual_download_size
             self.leastfpp = new_oracle.fpp
             self.logger.log(str(self), knowing_population, downloaded_bits_per_individual)
-            if self.leastfpp < fpp_threshold:
+            if self.leastfpp <= fpp_threshold:
                 break
 
 
 def main():
     logger = CSVLogger()
-    Scenario(population=80000000, newinfections=60000, oracles=[RawList(0)], logger=logger).run()
-    Scenario(population=80000000, newinfections=60000, oracles=[BloomFilter(0.00003)], logger=logger).run()
-    Scenario(population=80000000, newinfections=60000, oracles=[RawList(0), BloomFilter(0.3)], logger=logger).run()
+    Scenario(population=80000000, newinfections=40000, oracles=[RawList(0, 40000)], logger=logger).run()
+    Scenario(population=80000000, newinfections=40000, oracles=[BloomFilter(0.000001, 40000)], logger=logger).run()
+    Scenario(population=80000000, newinfections=40000, oracles=[RawList(0, 40000), BloomFilter(0.01, 40000)], logger=logger).run()
+    Scenario(population=80000000, newinfections=40000, oracles=[BloomFilter(0.00000000001, 40000), BloomFilter(0.002, 40000), BloomFilter(0.01, 40000)], logger=logger).run()
     logger.print()
 
 

@@ -3,7 +3,7 @@ class CSVLogger:
         self.tbl = {}
 
     def log(self, key, neg, indsize):
-        value = str(neg) + " " + str(indsize) + " "
+        value = str(neg) + " " + str(6 * indsize) + " "
         if key in self.tbl:
             self.tbl[key] = self.tbl[key] + value
         else:
