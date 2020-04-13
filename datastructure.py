@@ -2,6 +2,7 @@ import math
 
 percentage_of_actually_infected_candidates = 60594 / 80000000
 
+
 class Datastructure:
     def __init__(self, fpp, infectedentries):
         self.fpp = fpp
@@ -14,8 +15,6 @@ class Datastructure:
 
     def __str__(self):
         pass
-
-
 
 
 class BloomFilter(Datastructure):

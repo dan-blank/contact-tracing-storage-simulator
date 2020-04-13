@@ -37,11 +37,17 @@ class Scenario:
 
 def main():
     logger = CSVLogger()
-    Scenario(population=80000000, newinfections=40000, oracles=[BloomFilter(0.000000000267, 40000)], logger=logger).run()
-    Scenario(population=80000000, newinfections=40000, oracles=[CuckooFilter(0.000000000267, 40000)], logger=logger).run()
-    Scenario(population=80000000, newinfections=40000, oracles=[CuckooFilter(0.000000000267, 40000), BloomFilter(0.3, 40000)], logger=logger).run()
-    Scenario(population=80000000, newinfections=40000, oracles=[CuckooFilter(0.000000000267, 40000), CuckooFilter(0.03, 40000)], logger=logger).run()
-    Scenario(population=80000000, newinfections=40000, oracles=[CuckooFilter(0.000000000267, 40000), CuckooFilter(0.001, 40000), BloomFilter(0.3, 40000)], logger=logger).run()
+    Scenario(population=80000000, newinfections=40000, oracles=[BloomFilter(0.000000000267, 40000)],
+             logger=logger).run()
+    Scenario(population=80000000, newinfections=40000, oracles=[CuckooFilter(0.000000000267, 40000)],
+             logger=logger).run()
+    Scenario(population=80000000, newinfections=40000,
+             oracles=[CuckooFilter(0.000000000267, 40000), BloomFilter(0.3, 40000)], logger=logger).run()
+    Scenario(population=80000000, newinfections=40000,
+             oracles=[CuckooFilter(0.000000000267, 40000), CuckooFilter(0.03, 40000)], logger=logger).run()
+    Scenario(population=80000000, newinfections=40000,
+             oracles=[CuckooFilter(0.000000000267, 40000), CuckooFilter(0.001, 40000), BloomFilter(0.3, 40000)],
+             logger=logger).run()
     logger.print()
 
 
