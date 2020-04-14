@@ -10,8 +10,9 @@ class Datastructure:
 
     def calculate(self, candidates):
         actually_infected = percentage_of_actually_infected_candidates * candidates
-        falsely_identified = candidates * self.fpp
-        return candidates - actually_infected - falsely_identified
+        chance_for_false_positive = 1.0 - ((1.0 - self.fpp)) ** (14 * 24 * 4 * 4)
+        falsely_identified = candidates * chance_for_false_positive
+        return candidates - min(candidates, actually_infected + falsely_identified)
 
     def __str__(self):
         pass
