@@ -1,53 +1,11 @@
-from datastructure import BloomFilter, CuckooFilter
-from logging import CSVLogger
-
-fpp_threshold = 0.00000000026700
-
-
-class Scenario:
-    def __init__(self, population, newinfections, oracles, logger):
-        self.candidates = population  # Initially, every individual is a potentially infected person
-        self.newinfections = newinfections
-        self.oracles = oracles
-        self.logger = logger
-        self.leastfpp = 100
-        self.name = self.generate_name()
-
-    def generate_name(self):
-        res = str(self.oracles[0])
-        for ora in self.oracles[1:]:
-            res += "#" + str(ora)
-        res += "*" + str(self.candidates) + "*" + str(self.newinfections)
-        return res
-
-    def __str__(self):
-        return self.name
-
-    def run(self):
-        while True:
-            new_oracle = self.oracles.pop()
-            definitely_negative_population = new_oracle.calculate(self.candidates)
-            self.candidates -= definitely_negative_population
-            downloaded_bits_per_individual = new_oracle.individual_download_size
-            self.leastfpp = new_oracle.fpp
-            self.logger.log(str(self), definitely_negative_population, downloaded_bits_per_individual)
-            if self.leastfpp <= fpp_threshold:
-                break
-
+from constants import fpp_threshold, logger
+from datastructures import CuckooFilter
+from scenario import Scenario
 
 def main():
-    logger = CSVLogger()
-    desired_fpp = 0.000000000000267
-    Scenario(population=80000000, newinfections=40000, oracles=[BloomFilter(desired_fpp, 40000)],
-             logger=logger).run()
-    Scenario(population=80000000, newinfections=40000, oracles=[CuckooFilter(desired_fpp, 40000)],
-             logger=logger).run()
-    Scenario(population=80000000, newinfections=40000,
-             oracles=[CuckooFilter(desired_fpp, 40000), CuckooFilter(0.00002, 40000)], logger=logger).run()
-    Scenario(population=80000000, newinfections=40000,
-             oracles=[CuckooFilter(desired_fpp, 40000), CuckooFilter(0.000001, 40000), CuckooFilter(0.00001, 40000)],
-             logger=logger).run()
+    Scenario(oracles=[CuckooFilter(fpp_threshold)]).run()
+    Scenario(oracles=[CuckooFilter(fpp_threshold), CuckooFilter(0.00002)]).run()
+    Scenario(oracles=[CuckooFilter(fpp_threshold), CuckooFilter(0.000001), CuckooFilter(0.00001)]).run()
     logger.print()
-
 
 main()

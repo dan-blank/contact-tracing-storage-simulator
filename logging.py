@@ -1,4 +1,4 @@
-# https://stackoverflow.com/a/1094933
+# This formatting function is from https://stackoverflow.com/a/1094933
 def sizeof_fmt(num, suffix='B'):
     for unit in ['', 'K', 'M', 'G']:
         if abs(num) < 1024.0:
@@ -7,17 +7,18 @@ def sizeof_fmt(num, suffix='B'):
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 
-class CSVLogger:
+class Defaultlogger:
     def __init__(self):
-        self.tbl = {}
+        self.logging_table = {}
 
-    def log(self, key, neg, indsize):
-        value = str(neg) + " " + str(sizeof_fmt((4 * 24 * 5 * indsize) / 8)) + " "
-        if key in self.tbl:
-            self.tbl[key] = self.tbl[key] + value
+    def log(self, filter_name, individuals_with_negative_checks, filter_size_in_bits):
+        value = str(individuals_with_negative_checks) + " " + str(
+            sizeof_fmt(4 * 24 * 5 * (filter_size_in_bits / 8))) + " "
+        if filter_name in self.logging_table:
+            self.logging_table[filter_name] = self.logging_table[filter_name] + value
         else:
-            self.tbl[key] = value
+            self.logging_table[filter_name] = value
 
     def print(self):
-        for key, val in self.tbl.items():
+        for key, val in self.logging_table.items():
             print(key + " | " + val)

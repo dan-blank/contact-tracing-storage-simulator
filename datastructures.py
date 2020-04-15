@@ -1,12 +1,10 @@
 import math
 
-percentage_of_actually_infected_candidates = 60594 / 80000000
-
+from constants import percentage_of_actually_infected_candidates, new_infections_per_day
 
 class Datastructure:
-    def __init__(self, fpp, infectedentries):
+    def __init__(self, fpp):
         self.fpp = fpp
-        self.totalcandidates = infectedentries
 
     def calculate(self, candidates):
         actually_infected = percentage_of_actually_infected_candidates * candidates
@@ -17,22 +15,20 @@ class Datastructure:
     def __str__(self):
         pass
 
-
 class BloomFilter(Datastructure):
-    def __init__(self, fpp, infectedentries):
-        Datastructure.__init__(self, fpp, infectedentries)
+    def __init__(self, fpp):
+        Datastructure.__init__(self, fpp)
         bit_per_entry = 1.44 * math.log(1 / fpp, 2)
-        self.individual_download_size = bit_per_entry * infectedentries
+        self.size = bit_per_entry * new_infections_per_day
 
     def __str__(self):
         return "bf" + str(self.fpp)
 
-
 class CuckooFilter(Datastructure):
-    def __init__(self, fpp, infectedentries):
-        Datastructure.__init__(self, fpp, infectedentries)
+    def __init__(self, fpp):
+        Datastructure.__init__(self, fpp)
         bit_per_entry = (math.log(1 / fpp, 2) + 2) / 0.955
-        self.individual_download_size = bit_per_entry * infectedentries
+        self.size = bit_per_entry * new_infections_per_day
 
     def __str__(self):
         return "cf" + str(self.fpp)
